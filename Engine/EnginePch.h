@@ -43,4 +43,17 @@ using Vec3		= XMFLOAT3;
 using Vec4		= XMFLOAT4;
 using Matrix	= XMMATRIX;
 
-void HelloEngine();
+enum
+{
+	SWAP_CHAIN_BUFFER_COUNT = 2,
+};
+
+struct WindowInfo
+{
+	HWND	hwnd;
+	uint32	width;
+	uint32	height;
+	bool	windowed;
+};
+
+extern unique_ptr<class Engine> GEngine;
