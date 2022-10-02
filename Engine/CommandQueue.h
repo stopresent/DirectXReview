@@ -5,7 +5,7 @@ class CommandQueue
 public:
 	~CommandQueue();
 
-	void Init(ComPtr<ID3D12Device> device, shared_ptr<class SwapChain> swapChain, shared_ptr<class DescriptorHeap> descHeap);
+	void Init(ComPtr<ID3D12Device> device, shared_ptr<class SwapChain> swapChain);
 	void WaitSync();
 
 	void RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect);
@@ -24,6 +24,5 @@ private:
 	HANDLE								_fenceEvent = INVALID_HANDLE_VALUE;
 
 	shared_ptr<class SwapChain>			_swapChain;
-	shared_ptr<class DescriptorHeap>	_descHeap;
 };
 

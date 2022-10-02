@@ -10,9 +10,8 @@ void Engine::Init(const WindowInfo& info)
 	_scissorRect = CD3DX12_RECT(0, 0, info.width, info.height);
 
 	_device->Init();
-	_cmdQueue->Init(_device->GetDevice(), _swapChain, _descHeap);
-	_swapChain->Init(info, _device->GetDXGI(), _cmdQueue->GetCmdQueue());
-	_descHeap->Init(_device->GetDevice(), _swapChain);
+	_cmdQueue->Init(_device->GetDevice(), _swapChain);
+	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _cmdQueue->GetCmdQueue());
 }
 
 void Engine::Render()

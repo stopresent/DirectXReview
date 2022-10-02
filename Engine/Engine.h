@@ -3,7 +3,6 @@
 #include "Device.h"
 #include "CommandQueue.h"
 #include "SwapChain.h"
-#include "DescriptorHeap.h"
 
 class Engine
 {
@@ -23,6 +22,5 @@ private:
 	shared_ptr<Device>			_device = make_shared<Device>();
 	shared_ptr<CommandQueue>	_cmdQueue = make_shared<CommandQueue>();
 	shared_ptr<SwapChain>		_swapChain = make_shared<SwapChain>();
-	shared_ptr<DescriptorHeap>	_descHeap = make_shared<DescriptorHeap>();
 };
 
