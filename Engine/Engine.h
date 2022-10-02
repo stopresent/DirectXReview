@@ -8,10 +8,16 @@ class Engine
 {
 public:
 	void Init(const WindowInfo& info);
+	void Render();
+
+public:
+	shared_ptr<Device> GetDevice() { return _device; }
+	shared_ptr<CommandQueue> GetCmdQueue() { return _cmdQueue; }
+	shared_ptr<SwapChain> GetSwapChain() { return _swapChain; }
+
+public:
 	void RenderBegin();
 	void RenderEnd();
-
-	void Render();
 	
 	void ResizeWindow(uint32 width, uint32 height);
 private:
