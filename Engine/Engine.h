@@ -3,6 +3,9 @@
 #include "Device.h"
 #include "CommandQueue.h"
 #include "SwapChain.h"
+#include "RootSignature.h"
+#include "Mesh.h"
+#include "Shader.h"
 
 class Engine
 {
@@ -14,6 +17,7 @@ public:
 	shared_ptr<Device> GetDevice() { return _device; }
 	shared_ptr<CommandQueue> GetCmdQueue() { return _cmdQueue; }
 	shared_ptr<SwapChain> GetSwapChain() { return _swapChain; }
+	shared_ptr<RootSignature> GetRootSignature() { return _rootSignature; }
 
 public:
 	void RenderBegin();
@@ -28,5 +32,6 @@ private:
 	shared_ptr<Device>			_device = make_shared<Device>();
 	shared_ptr<CommandQueue>	_cmdQueue = make_shared<CommandQueue>();
 	shared_ptr<SwapChain>		_swapChain = make_shared<SwapChain>();
+	shared_ptr<RootSignature> _rootSignature = make_shared<RootSignature>();
 };
 
