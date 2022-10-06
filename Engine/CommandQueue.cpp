@@ -54,6 +54,7 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 
 	// 자리 임대 서명
 	_cmdList->SetGraphicsRootSignature(ROOT_SIGNATURE.Get());
+	GEngine->GetCB()->Clear();
 
 	_cmdList->ResourceBarrier(1, &barrier);
 
