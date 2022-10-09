@@ -55,6 +55,10 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 	// 자리 임대 서명
 	_cmdList->SetGraphicsRootSignature(ROOT_SIGNATURE.Get());
 	GEngine->GetCB()->Clear();
+	GEngine->GetTableDescHeap()->Clear();
+
+	ID3D12DescriptorHeap* descHeap = GEngine->GetTableDescHeap()->GetDescriptorHeap().Get();
+	_cmdList->SetDescriptorHeaps(1, &descHeap);
 
 	_cmdList->ResourceBarrier(1, &barrier);
 
