@@ -16,6 +16,8 @@ void Engine::Init(const WindowInfo& info)
 	_tableDescHeap->Init(256);
 	_depthStencilBuffer->Init(_window);
 
+	_input->Init(info.hwnd);
+
 	ResizeWindow(info.width, info.height);
 }
 
@@ -26,6 +28,11 @@ void Engine::Render()
 	// TODO Reder
 
 	RenderEnd();
+}
+
+void Engine::Update()
+{
+	_input->update();
 }
 
 void Engine::RenderBegin()

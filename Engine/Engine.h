@@ -11,11 +11,16 @@
 #include "Texture.h"
 #include "DepthStencilBuffer.h"
 
+#include "Input.h"
+
 class Engine
 {
 public:
 	void Init(const WindowInfo& info);
 	void Render();
+
+public:
+	void Update();
 
 public:
 	shared_ptr<Device> GetDevice() { return _device; }
@@ -25,6 +30,7 @@ public:
 	shared_ptr<ConstantBuffer> GetCB() { return _cb; }
 	shared_ptr<TableDescriptorHeap> GetTableDescHeap() { return _tableDescHeap; }
 	shared_ptr<DepthStencilBuffer> GetDepthStencilBuffer() { return _depthStencilBuffer; }
+	shared_ptr<Input> GetInput() { return _input; }
 
 public:
 	void RenderBegin();
@@ -43,5 +49,6 @@ private:
 	shared_ptr<ConstantBuffer> _cb = make_shared<ConstantBuffer>();
 	shared_ptr<TableDescriptorHeap> _tableDescHeap = make_shared<TableDescriptorHeap>();
 	shared_ptr<DepthStencilBuffer> _depthStencilBuffer = make_shared<DepthStencilBuffer>();
+	shared_ptr<Input> _input = make_shared<Input>();
 };
 
