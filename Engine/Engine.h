@@ -12,6 +12,7 @@
 #include "DepthStencilBuffer.h"
 
 #include "Input.h"
+#include "Timer.h"
 
 class Engine
 {
@@ -30,13 +31,19 @@ public:
 	shared_ptr<ConstantBuffer> GetCB() { return _cb; }
 	shared_ptr<TableDescriptorHeap> GetTableDescHeap() { return _tableDescHeap; }
 	shared_ptr<DepthStencilBuffer> GetDepthStencilBuffer() { return _depthStencilBuffer; }
+
 	shared_ptr<Input> GetInput() { return _input; }
+	shared_ptr<Timer> GetTimer() { return _timer; }
 
 public:
 	void RenderBegin();
 	void RenderEnd();
 	
 	void ResizeWindow(uint32 width, uint32 height);
+
+private:
+	void ShowFps();
+
 private:
 	WindowInfo		_window;
 	D3D12_VIEWPORT	_viewport = {};
@@ -49,6 +56,8 @@ private:
 	shared_ptr<ConstantBuffer> _cb = make_shared<ConstantBuffer>();
 	shared_ptr<TableDescriptorHeap> _tableDescHeap = make_shared<TableDescriptorHeap>();
 	shared_ptr<DepthStencilBuffer> _depthStencilBuffer = make_shared<DepthStencilBuffer>();
+
 	shared_ptr<Input> _input = make_shared<Input>();
+	shared_ptr<Timer> _timer = make_shared<Timer>();
 };
 

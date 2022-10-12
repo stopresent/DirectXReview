@@ -59,13 +59,13 @@ void Game::Update()
 		static Transform t = {};
 
 		if (INPUT->GetButtonDown(KEY_TYPE::W))
-			t.offset.y += 1.f * 0.001;
+			t.offset.y += 1.f * DELTA_TIME;
 		if (INPUT->GetButtonDown(KEY_TYPE::S))
-			t.offset.y -= 1.f * 0.001;
+			t.offset.y -= 1.f * DELTA_TIME;
 		if (INPUT->GetButtonDown(KEY_TYPE::A))
-			t.offset.x -= 1.f * 0.001;
+			t.offset.x -= 1.f * DELTA_TIME;
 		if (INPUT->GetButtonDown(KEY_TYPE::D))
-			t.offset.x += 1.f * 0.001;
+			t.offset.x += 1.f * DELTA_TIME;
 
 
 		mesh->SetTransform(t);

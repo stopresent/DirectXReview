@@ -17,6 +17,7 @@ void Engine::Init(const WindowInfo& info)
 	_depthStencilBuffer->Init(_window);
 
 	_input->Init(info.hwnd);
+	_timer->Init();
 
 	ResizeWindow(info.width, info.height);
 }
@@ -33,6 +34,8 @@ void Engine::Render()
 void Engine::Update()
 {
 	_input->update();
+	_timer->Update();
+	ShowFps();
 }
 
 void Engine::RenderBegin()
@@ -55,4 +58,14 @@ void Engine::ResizeWindow(uint32 width, uint32 height)
 	::SetWindowPos(_window.hwnd, 0, 100, 100, width, height, 0);
 
 	_depthStencilBuffer->Init(_window);
+}
+
+void Engine::ShowFps()
+{
+	uint32 fps = _timer->GetFps();
+
+	WCHAR text[100] = L"";
+	::wsprintf(text, L"FPS : %d", fps);
+
+	::SetWindowText(_window.hwnd, text);
 }
