@@ -19,6 +19,9 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{8a2cdd7c-0659-4597-bc66-666ef9f8386b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Test">
+      <UniqueIdentifier>{37a86ffa-712e-4ebd-bf95-9e931ae85814}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -92,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="SimpleMath.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCameraScript.cpp">
+      <Filter>GameObject\Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="SimpleMath.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCameraScript.h">
+      <Filter>GameObject\Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,9 +8,14 @@ enum class KEY_TYPE
 	RIGHT = VK_RIGHT,
 
 	W = 'W',
-	S = 'S',
 	A = 'A',
+	S = 'S',
 	D = 'D',
+
+	Q = 'Q',
+	E = 'E',
+	Z = 'Z',
+	C = 'C',
 };
 
 enum class KEY_STATE
@@ -19,7 +24,7 @@ enum class KEY_STATE
 	PRESS,
 	DOWN,
 	UP,
-	END,
+	END
 };
 
 enum
@@ -34,17 +39,20 @@ class Input
 
 public:
 	void Init(HWND hwnd);
-	void update();
+	void Update();
 
-	bool GetButton(KEY_TYPE key) { return GetState(key) == KEY_STATE::DOWN; }
-	bool GetButtonDown(KEY_TYPE key) { return GetState(key) == KEY_STATE::PRESS; }
+	// 누르고 있을 때
+	bool GetButton(KEY_TYPE key) { return GetState(key) == KEY_STATE::PRESS; }
+	// 맨 처음 눌렀을 때
+	bool GetButtonDown(KEY_TYPE key) { return GetState(key) == KEY_STATE::DOWN; }
+	// 맨 처음 눌렀다 뗐을 때
 	bool GetButtonUp(KEY_TYPE key) { return GetState(key) == KEY_STATE::UP; }
 
 private:
 	inline KEY_STATE GetState(KEY_TYPE key) { return _states[static_cast<uint8>(key)]; }
 
 private:
-	HWND				_hwnd;
-	vector<KEY_STATE>	_states;
+	HWND _hwnd;
+	vector<KEY_STATE> _states;
 };
 

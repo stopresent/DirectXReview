@@ -2,10 +2,10 @@
 #include "Material.h"
 #include "Engine.h"
 
-void Material::Update()
+void Material::PushData()
 {
 	// CBV 업로드
-	CONSTANTBUFFER(CONSTANT_BUFFER_TYPE::MATERIAL)->PushData(&_params, sizeof(_params));
+	CONST_BUFFER(CONSTANT_BUFFER_TYPE::MATERIAL)->PushData(&_params, sizeof(_params));
 
 	// SRV 업로드
 	for (size_t i = 0; i < _textures.size(); i++)

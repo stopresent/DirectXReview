@@ -8,7 +8,7 @@ void Input::Init(HWND hwnd)
 	_states.resize(KEY_TYPE_COUNT, KEY_STATE::NONE);
 }
 
-void Input::update()
+void Input::Update()
 {
 	HWND hwnd = ::GetActiveWindow();
 	if (_hwnd != hwnd)
