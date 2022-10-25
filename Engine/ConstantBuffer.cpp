@@ -17,6 +17,8 @@ ConstantBuffer::~ConstantBuffer()
 	}
 }
 
+
+
 void ConstantBuffer::Init(CBV_REGISTER reg, uint32 size, uint32 count)
 {
 	_reg = reg;
@@ -45,6 +47,8 @@ void ConstantBuffer::CreateBuffer()
 		IID_PPV_ARGS(&_cbvBuffer));
 
 	_cbvBuffer->Map(0, nullptr, reinterpret_cast<void**>(&_mappedBuffer));
+	// We do not need to unmap until we are done with the resource.  However, we must not write to
+	// the resource while it is in use by the GPU (so we must use synchronization techniques).
 }
 
 void ConstantBuffer::CreateView()
@@ -58,13 +62,13 @@ void ConstantBuffer::CreateView()
 	_cpuHandleBegin = _cbvHeap->GetCPUDescriptorHandleForHeapStart();
 	_handleIncrementSize = DEVICE->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-	for (uint32 i = 0; i < _elementSize; ++i)
+	for (uint32 i = 0; i < _elementCount; ++i)
 	{
 		D3D12_CPU_DESCRIPTOR_HANDLE cbvHandle = GetCpuHandle(i);
 
 		D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
 		cbvDesc.BufferLocation = _cbvBuffer->GetGPUVirtualAddress() + static_cast<uint64>(_elementSize) * i;
-		cbvDesc.SizeInBytes = _elementSize;
+		cbvDesc.SizeInBytes = _elementSize;   // CB size is required to be 256-byte aligned.
 
 		DEVICE->CreateConstantBufferView(&cbvDesc, cbvHandle);
 	}
@@ -86,7 +90,13 @@ void ConstantBuffer::PushData(void* buffer, uint32 size)
 	GEngine->GetTableDescHeap()->SetCBV(cpuHandle, _reg);
 
 	_currentIndex++;
+}
 
+void ConstantBuffer::SetGlobalData(void* buffer, uint32 size)
+{
+	assert(_elementSize == ((size + 255) & ~255));
+	::memcpy(&_mappedBuffer[0], buffer, size);
+	CMD_LIST->SetGraphicsRootConstantBufferView(0, GetGpuVirtualAddress(0));
 }
 
 D3D12_GPU_VIRTUAL_ADDRESS ConstantBuffer::GetGpuVirtualAddress(uint32 index)
@@ -96,7 +106,7 @@ D3D12_GPU_VIRTUAL_ADDRESS ConstantBuffer::GetGpuVirtualAddress(uint32 index)
 	return objCBAddress;
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE ConstantBuffer::GetCpuHandle(int32 index)
+D3D12_CPU_DESCRIPTOR_HANDLE ConstantBuffer::GetCpuHandle(uint32 index)
 {
 	return CD3DX12_CPU_DESCRIPTOR_HANDLE(_cpuHandleBegin, index * _handleIncrementSize);
 }

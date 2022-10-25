@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SwapChain.h"
 
+
 void SwapChain::Init(const WindowInfo& info, ComPtr<ID3D12Device> device, ComPtr<IDXGIFactory> dxgi, ComPtr<ID3D12CommandQueue> cmdQueue)
 {
 	CreateSwapChain(info, dxgi, cmdQueue);
@@ -9,6 +10,7 @@ void SwapChain::Init(const WindowInfo& info, ComPtr<ID3D12Device> device, ComPtr
 
 void SwapChain::Present()
 {
+	// Present the frame.
 	_swapChain->Present(0, 0);
 }
 
@@ -19,6 +21,7 @@ void SwapChain::SwapIndex()
 
 void SwapChain::CreateSwapChain(const WindowInfo& info, ComPtr<IDXGIFactory> dxgi, ComPtr<ID3D12CommandQueue> cmdQueue)
 {
+	// 이전에 만든 정보 날린다
 	_swapChain.Reset();
 
 	DXGI_SWAP_CHAIN_DESC sd;
@@ -46,7 +49,6 @@ void SwapChain::CreateSwapChain(const WindowInfo& info, ComPtr<IDXGIFactory> dxg
 
 void SwapChain::CreateRTV(ComPtr<ID3D12Device> device)
 {
-
 	// Descriptor (DX12) = View (~DX11)
 	// [서술자 힙]으로 RTV 생성
 	// DX11의 RTV(RenderTargetView), DSV(DepthStencilView), 

@@ -80,8 +80,8 @@ shared_ptr<Mesh> Resources::LoadSphereMesh()
 		return findMesh;
 
 	float radius = 0.5f; // 구의 반지름
-	uint32 stackCount = 20; // 가로 분할
-	uint32 sliceCount = 20; // 세로 분할
+	uint32 stackCount = 100; // 가로 분할
+	uint32 sliceCount = 100; // 세로 분할
 
 	vector<Vertex> vec;
 

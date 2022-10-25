@@ -8,6 +8,7 @@
 #include "MeshRenderer.h"
 #include "Transform.h"
 #include "Camera.h"
+#include "Light.h"
 
 #include "TestCameraScript.h"
 #include "Resources.h"
@@ -22,19 +23,11 @@ void SceneManager::Update()
 	_activeScene->FinalUpdate();
 }
 
+// TEMP
 void SceneManager::Render()
 {
-	if (_activeScene == nullptr)
-		return;
-
-	const vector<shared_ptr<GameObject>>& gameObjects = _activeScene->GetGameObjects();
-	for (auto& gameObject : gameObjects)
-	{
-		if (gameObject->GetCamera() == nullptr)
-			continue;
-
-		gameObject->GetCamera()->Render();
-	}
+	if (_activeScene)
+		_activeScene->Render();
 }
 
 void SceneManager::LoadScene(wstring sceneName)
@@ -55,9 +48,9 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 #pragma region Camera
 	shared_ptr<GameObject> camera = make_shared<GameObject>();
 	camera->AddComponent(make_shared<Transform>());
-	camera->AddComponent(make_shared<Camera>());
+	camera->AddComponent(make_shared<Camera>()); // Near=1, Far=1000, FOV=45µµ
 	camera->AddComponent(make_shared<TestCameraScript>());
-	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 100.f, 0.f));
+	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 0.f, 0.f));
 	scene->AddGameObject(camera);
 #pragma endregion
 
@@ -65,8 +58,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	{
 		shared_ptr<GameObject> sphere = make_shared<GameObject>();
 		sphere->AddComponent(make_shared<Transform>());
-		sphere->GetTransform()->SetLocalScale(Vec3(100.0f, 100.0f, 100.0f));
-		sphere->GetTransform()->SetLocalPosition(Vec3(0.0f, 100.0f, 200.0f));
+		sphere->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+		sphere->GetTransform()->SetLocalPosition(Vec3(0.f, 0.f, 150.f));
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
 		{
 			shared_ptr<Mesh> sphereMesh = GET_SINGLE(Resources)->LoadSphereMesh();
@@ -76,7 +69,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Shader> shader = make_shared<Shader>();
 			shared_ptr<Texture> texture = make_shared<Texture>();
 			shader->Init(L"..\\Resources\\Shader\\default.hlsli");
-			texture->Init(L"..\\Resources\\Texture\\ice.dds");
+			texture->Init(L"..\\Resources\\Texture\\veigar.jpg");
 			shared_ptr<Material> material = make_shared<Material>();
 			material->SetShader(shader);
 			material->SetTexture(0, texture);
@@ -87,29 +80,54 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	}
 #pragma endregion
 
-#pragma region Cube
+#pragma region Green Directional Light
 	{
-		shared_ptr<GameObject> cube = make_shared<GameObject>();
-		cube->AddComponent(make_shared<Transform>());
-		cube->GetTransform()->SetLocalScale(Vec3(100.0f, 100.0f, 100.0f));
-		cube->GetTransform()->SetLocalPosition(Vec3(150.0f, 100.0f, 200.0f));
-		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
-		{
-			shared_ptr<Mesh> cubeMesh = GET_SINGLE(Resources)->LoadCubeMesh();
-			meshRenderer->SetMesh(cubeMesh);
-		}
-		{
-			shared_ptr<Shader> shader = make_shared<Shader>();
-			shared_ptr<Texture> texture = make_shared<Texture>();
-			shader->Init(L"..\\Resources\\Shader\\default.hlsli");
-			texture->Init(L"..\\Resources\\Texture\\WoodCrate01.dds");
-			shared_ptr<Material> material = make_shared<Material>();
-			material->SetShader(shader);
-			material->SetTexture(0, texture);
-			meshRenderer->SetMaterial(material);
-		}
-		cube->AddComponent(meshRenderer);
-		scene->AddGameObject(cube);
+		shared_ptr<GameObject> light = make_shared<GameObject>();
+		light->AddComponent(make_shared<Transform>());
+		//light->GetTransform()->SetLocalPosition(Vec3(0.f, 150.f, 150.f));
+		light->AddComponent(make_shared<Light>());
+		light->GetLight()->SetLightDirection(Vec3(1.f, -1.f, 0.f));
+		light->GetLight()->SetLightType(LIGHT_TYPE::DIRECTIONAL_LIGHT);
+		light->GetLight()->SetDiffuse(Vec3(0.5f, 0.5f, 0.5f));
+		light->GetLight()->SetAmbient(Vec3(1.f, 1.f, 1.f));
+		light->GetLight()->SetSpecular(Vec3(0.1f, 0.1f, 0.1f));
+
+		scene->AddGameObject(light);
+	}
+
+#pragma endregion
+
+#pragma region Red Point Light
+	{
+		shared_ptr<GameObject> light = make_shared<GameObject>();
+		light->AddComponent(make_shared<Transform>());
+		light->GetTransform()->SetLocalPosition(Vec3(150.f, 0.f, 150.f));
+		light->AddComponent(make_shared<Light>());
+		//light->GetLight()->SetLightDirection(Vec3(0.f, -1.f, 0.f));
+		light->GetLight()->SetLightType(LIGHT_TYPE::POINT_LIGHT);
+		light->GetLight()->SetDiffuse(Vec3(1.f, 0.1f, 0.1f));
+		light->GetLight()->SetAmbient(Vec3(0.1f, 0.f, 0.f));
+		light->GetLight()->SetSpecular(Vec3(0.1f, 0.1f, 0.1f));
+		light->GetLight()->SetLightRange(10000.f);
+		//light->GetLight()->SetLightAngle(XM_PI / 4);
+		scene->AddGameObject(light);
+	}
+#pragma endregion
+
+#pragma region Blue Spot Light
+	{
+		shared_ptr<GameObject> light = make_shared<GameObject>();
+		light->AddComponent(make_shared<Transform>());
+		light->GetTransform()->SetLocalPosition(Vec3(-150.f, 150.f, 150.f));
+		light->AddComponent(make_shared<Light>());
+		light->GetLight()->SetLightDirection(Vec3(1.f, -1.f, 0.f));
+		light->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
+		light->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
+		//light->GetLight()->SetAmbient(Vec3(0.f, 0.f, 0.1f));
+		light->GetLight()->SetSpecular(Vec3(0.1f, 0.1f, 0.1f));
+		light->GetLight()->SetLightRange(10000.f);
+		light->GetLight()->SetLightAngle(XM_PI / 10);
+		scene->AddGameObject(light);
 	}
 #pragma endregion
 
