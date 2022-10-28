@@ -10,9 +10,6 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{051e9ca0-4a1d-4c6c-84d0-f602e962773d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{8a2cdd7c-0659-4597-bc66-666ef9f8386b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{4a3c01e9-93c9-499b-ab43-90993e4aee09}</UniqueIdentifier>
     </Filter>
@@ -24,6 +21,9 @@
     </Filter>
     <Filter Include="Object\Resource">
       <UniqueIdentifier>{c5612518-9c4d-408d-926a-9312743d39fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{8a2cdd7c-0659-4597-bc66-666ef9f8386b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
