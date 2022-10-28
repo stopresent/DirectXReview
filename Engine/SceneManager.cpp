@@ -91,7 +91,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		light->AddComponent(make_shared<Light>());
 		light->GetLight()->SetLightDirection(Vec3(0.5f, -1.f, 1.f));
 		light->GetLight()->SetLightType(LIGHT_TYPE::DIRECTIONAL_LIGHT);
-		light->GetLight()->SetDiffuse(Vec3(0.5f, 0.5f, 0.5f));
+		light->GetLight()->SetDiffuse(Vec3(0.7f, 0.7f, 0.7f));
 		light->GetLight()->SetAmbient(Vec3(0.1f, 0.1f, 0.1f));
 		light->GetLight()->SetSpecular(Vec3(0.3f, 0.3f, 0.3f));
 
@@ -116,7 +116,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 //		scene->AddGameObject(light);
 //	}
 //#pragma endregion
-//
+
 //#pragma region Blue Spot Light
 //	{
 //		shared_ptr<GameObject> light = make_shared<GameObject>();
