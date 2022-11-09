@@ -109,10 +109,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			meshRenderer->SetMesh(sphereMesh);
 		}
 		{
-			shared_ptr<Shader> shader = make_shared<Shader>();
-			shared_ptr<Texture> texture = make_shared<Texture>();
-			shader->Init(L"..\\Resources\\Shader\\skybox.fx", { RASTERIZER_TYPE::CULL_NONE, DEPTH_STENCIL_TYPE::LESS_EQUAL });
-			texture->Init(L"..\\Resources\\Texture\\Sky03.jpg");
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Skybox");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Sky01", L"..\\Resources\\Texture\\Sky01.jpg");
 			shared_ptr<Material> material = make_shared<Material>();
 			material->SetShader(shader);
 			material->SetTexture(0, texture);
@@ -135,16 +133,38 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			meshRenderer->SetMesh(sphereMesh);
 		}
 		{
-			shared_ptr<Shader> shader = make_shared<Shader>();
-			shared_ptr<Texture> texture = make_shared<Texture>();
-			shared_ptr<Texture> texture2 = make_shared<Texture>();
-			shader->Init(L"..\\Resources\\Shader\\default.fx");
-			texture->Init(L"..\\Resources\\Texture\\Leather.jpg");
-			texture2->Init(L"..\\Resources\\Texture\\Leather_Normal.jpg");
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Forward");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Leather", L"..\\Resources\\Texture\\Leather.jpg");
+			shared_ptr<Texture> texture2 = GET_SINGLE(Resources)->Load<Texture>(L"Leather_Normal", L"..\\Resources\\Texture\\Leather_Normal.jpg");
 			shared_ptr<Material> material = make_shared<Material>();
 			material->SetShader(shader);
 			material->SetTexture(0, texture);
 			material->SetTexture(1, texture2);
+			meshRenderer->SetMaterial(material);
+		}
+		sphere->AddComponent(meshRenderer);
+		scene->AddGameObject(sphere);
+	}
+#pragma endregion
+
+#pragma region UI_Test
+	{
+		shared_ptr<GameObject> sphere = make_shared<GameObject>();
+		sphere->SetLayerIndex(GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI")); // UI
+		sphere->AddComponent(make_shared<Transform>());
+		sphere->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+		sphere->GetTransform()->SetLocalPosition(Vec3(0, 0, 500.f));
+		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+		{
+			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
+			meshRenderer->SetMesh(mesh);
+		}
+		{
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Forward");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Leather", L"..\\Resources\\Texture\\Leather.jpg");
+			shared_ptr<Material> material = make_shared<Material>();
+			material->SetShader(shader);
+			material->SetTexture(0, texture);
 			meshRenderer->SetMaterial(material);
 		}
 		sphere->AddComponent(meshRenderer);
@@ -166,42 +186,6 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 
 		scene->AddGameObject(light);
 	}
-
-#pragma endregion
-	//
-	//#pragma region Red Point Light
-	//	{
-	//		shared_ptr<GameObject> light = make_shared<GameObject>();
-	//		light->AddComponent(make_shared<Transform>());
-	//		light->GetTransform()->SetLocalPosition(Vec3(150.f, 0.f, 150.f));
-	//		light->AddComponent(make_shared<Light>());
-	//		//light->GetLight()->SetLightDirection(Vec3(0.f, -1.f, 0.f));
-	//		light->GetLight()->SetLightType(LIGHT_TYPE::POINT_LIGHT);
-	//		light->GetLight()->SetDiffuse(Vec3(1.f, 0.1f, 0.1f));
-	//		light->GetLight()->SetAmbient(Vec3(0.1f, 0.f, 0.f));
-	//		light->GetLight()->SetSpecular(Vec3(0.1f, 0.1f, 0.1f));
-	//		light->GetLight()->SetLightRange(10000.f);
-	//		//light->GetLight()->SetLightAngle(XM_PI / 4);
-	//		scene->AddGameObject(light);
-	//	}
-	//#pragma endregion
-
-	//#pragma region Blue Spot Light
-	//	{
-	//		shared_ptr<GameObject> light = make_shared<GameObject>();
-	//		light->AddComponent(make_shared<Transform>());
-	//		light->GetTransform()->SetLocalPosition(Vec3(-150.f, 150.f, 150.f));
-	//		light->AddComponent(make_shared<Light>());
-	//		light->GetLight()->SetLightDirection(Vec3(1.f, -1.f, 0.f));
-	//		light->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
-	//		light->GetLight()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
-	//		//light->GetLight()->SetAmbient(Vec3(0.f, 0.f, 0.1f));
-	//		light->GetLight()->SetSpecular(Vec3(0.1f, 0.1f, 0.1f));
-	//		light->GetLight()->SetLightRange(10000.f);
-	//		light->GetLight()->SetLightAngle(XM_PI / 10);
-	//		scene->AddGameObject(light);
-	//	}
-	//#pragma endregion
 
 	return scene;
 }
