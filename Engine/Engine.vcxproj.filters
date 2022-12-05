@@ -8,22 +8,22 @@
       <UniqueIdentifier>{300f6233-f1b4-4f18-9360-c9bfe0308e34}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shader">
-      <UniqueIdentifier>{051e9ca0-4a1d-4c6c-84d0-f602e962773d}</UniqueIdentifier>
+      <UniqueIdentifier>{710a24eb-3b22-4cba-b53b-42897f27a6d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{25b3214d-e145-4b49-8e9d-908a06998ffa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object">
-      <UniqueIdentifier>{4a3c01e9-93c9-499b-ab43-90993e4aee09}</UniqueIdentifier>
+      <UniqueIdentifier>{dd23f47d-3ac2-4f96-9bfe-4a6fac248639}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Test">
-      <UniqueIdentifier>{37a86ffa-712e-4ebd-bf95-9e931ae85814}</UniqueIdentifier>
+      <UniqueIdentifier>{1cfe4b64-4ca1-4958-b16f-73f8ae1985c3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Component">
-      <UniqueIdentifier>{6d77d9e3-e74b-42f4-99db-844016a46a8d}</UniqueIdentifier>
+      <UniqueIdentifier>{915d1c10-9db1-4fdb-887a-d0160f593ea1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Resource">
       <UniqueIdentifier>{c5612518-9c4d-408d-926a-9312743d39fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{8a2cdd7c-0659-4597-bc66-666ef9f8386b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,13 +33,13 @@
     <ClCompile Include="EnginePch.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
     <ClCompile Include="CommandQueue.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Device.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="SwapChain.cpp">
@@ -63,19 +63,16 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Object\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="DepthStencilBuffer.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Object\Resource</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
+    <ClCompile Include="SceneManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
+    <ClCompile Include="Scene.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
@@ -117,6 +114,9 @@
     <ClCompile Include="Frustum.cpp">
       <Filter>Object\Component</Filter>
     </ClCompile>
+    <ClCompile Include="RenderTargetGroup.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -128,13 +128,13 @@
     <ClInclude Include="d3dx12.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
     <ClInclude Include="CommandQueue.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Device.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="SwapChain.h">
@@ -158,19 +158,16 @@
     <ClInclude Include="Texture.h">
       <Filter>Object\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="DepthStencilBuffer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Object\Resource</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
+    <ClInclude Include="SceneManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
+    <ClInclude Include="Scene.h">
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
@@ -212,6 +209,9 @@
     <ClInclude Include="Frustum.h">
       <Filter>Object\Component</Filter>
     </ClInclude>
+    <ClInclude Include="RenderTargetGroup.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -219,9 +219,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Resources\Shader\forward.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="..\Resources\Shader\params.fx">
       <Filter>Shader</Filter>
     </FxCompile>
@@ -229,6 +226,12 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\Shader\utils.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shader\forward.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shader\deferred.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

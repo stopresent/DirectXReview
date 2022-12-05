@@ -12,7 +12,7 @@ struct LightInfo
 {
     LightColor  color;
     float4	    position;
-    float4	    direction;
+    float4	    direction; 
     int		    lightType;
     float	    range;
     float	    angle;

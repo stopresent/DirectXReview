@@ -40,7 +40,7 @@ private:
 	Vec3 _localRotation = {};
 	Vec3 _localScale = { 1.f, 1.f, 1.f };
 
-	Matrix _matLocal = {};
+	Matrix _matLocal= {};
 	Matrix _matWorld = {};
 
 	weak_ptr<Transform> _parent;

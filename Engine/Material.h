@@ -35,7 +35,7 @@ public:
 	void SetFloat(uint8 index, float value) { _params.SetFloat(index, value); }
 	void SetTexture(uint8 index, shared_ptr<Texture> texture) 
 	{ 
-		_textures[index] = texture; 
+		_textures[index] = texture;
 		_params.SetTexOn(index, (texture == nullptr ? 0 : 1));
 	}
 
@@ -44,6 +44,6 @@ public:
 private:
 	shared_ptr<Shader>	_shader;
 	MaterialParams		_params;
-	array<shared_ptr<Texture>, MATERIAL_TEXTURE_COUNT>	_textures;
+	array<shared_ptr<Texture>, MATERIAL_TEXTURE_COUNT> _textures;
 };
 

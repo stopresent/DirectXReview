@@ -4,10 +4,12 @@
 
 Material::Material() : Object(OBJECT_TYPE::MATERIAL)
 {
+
 }
 
 Material::~Material()
 {
+
 }
 
 void Material::PushData()
@@ -22,7 +24,7 @@ void Material::PushData()
 			continue;
 
 		SRV_REGISTER reg = SRV_REGISTER(static_cast<int8>(SRV_REGISTER::t0) + i);
-		GEngine->GetTableDescHeap()->SetSRV(_textures[i]->GetCpuHandle(), reg);
+		GEngine->GetTableDescHeap()->SetSRV(_textures[i]->GetSRVHandle(), reg);
 	}
 
 	// 파이프라인 세팅

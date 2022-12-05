@@ -66,6 +66,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				DispatchMessage(&msg);
 			}
         }
+
 		// TODO
         game->Update();
     }
@@ -125,7 +126,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
-   
+
    GWindowInfo.hwnd = hWnd;
 
    return TRUE;

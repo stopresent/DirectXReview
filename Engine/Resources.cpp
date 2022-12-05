@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Resources.h"
 
-
 void Resources::Init()
 {
 	CreateDefaultShader();
@@ -115,8 +114,8 @@ shared_ptr<Mesh> Resources::LoadSphereMesh()
 		return findMesh;
 
 	float radius = 0.5f; // 구의 반지름
-	uint32 stackCount = 100; // 가로 분할
-	uint32 sliceCount = 100; // 세로 분할
+	uint32 stackCount = 20; // 가로 분할
+	uint32 sliceCount = 20; // 세로 분할
 
 	vector<Vertex> vec;
 
@@ -194,14 +193,14 @@ shared_ptr<Mesh> Resources::LoadSphereMesh()
 			//  [y, x]-[y, x+1]
 			//  |		/
 			//  [y+1, x]
-			idx.push_back(1 + (y)*ringVertexCount + (x));
-			idx.push_back(1 + (y)*ringVertexCount + (x + 1));
+			idx.push_back(1 + (y) * ringVertexCount + (x));
+			idx.push_back(1 + (y) * ringVertexCount + (x + 1));
 			idx.push_back(1 + (y + 1) * ringVertexCount + (x));
 			//		 [y, x+1]
 			//		 /	  |
 			//  [y+1, x]-[y+1, x+1]
 			idx.push_back(1 + (y + 1) * ringVertexCount + (x));
-			idx.push_back(1 + (y)*ringVertexCount + (x + 1));
+			idx.push_back(1 + (y) * ringVertexCount + (x + 1));
 			idx.push_back(1 + (y + 1) * ringVertexCount + (x + 1));
 		}
 	}
@@ -226,12 +225,33 @@ shared_ptr<Mesh> Resources::LoadSphereMesh()
 	return mesh;
 }
 
+shared_ptr<Texture> Resources::CreateTexture(const wstring& name, DXGI_FORMAT format, uint32 width, uint32 height,
+	const D3D12_HEAP_PROPERTIES& heapProperty, D3D12_HEAP_FLAGS heapFlags,
+	D3D12_RESOURCE_FLAGS resFlags, Vec4 clearColor)
+{
+	shared_ptr<Texture> texture = make_shared<Texture>();
+	texture->Create(format, width, height, heapProperty, heapFlags, resFlags, clearColor);
+	Add(name, texture);
+
+	return texture;
+}
+
+shared_ptr<Texture> Resources::CreateTextureFromResource(const wstring& name, ComPtr<ID3D12Resource> tex2D)
+{
+	shared_ptr<Texture> texture = make_shared<Texture>();
+	texture->CreateFromResource(tex2D);
+	Add(name, texture);
+
+	return texture;
+}
+
 void Resources::CreateDefaultShader()
 {
 	// Skybox
 	{
 		ShaderInfo info =
 		{
+			SHADER_TYPE::FORWARD,
 			RASTERIZER_TYPE::CULL_NONE,
 			DEPTH_STENCIL_TYPE::LESS_EQUAL
 		};
@@ -241,10 +261,23 @@ void Resources::CreateDefaultShader()
 		Add<Shader>(L"Skybox", shader);
 	}
 
+	// Deferred (Deferred)
+	{
+		ShaderInfo info =
+		{
+			SHADER_TYPE::DEFERRED
+		};
+
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shader->Init(L"..\\Resources\\Shader\\deferred.fx", info);
+		Add<Shader>(L"Deferred", shader);
+	}
+
 	// Forward (Forward)
 	{
 		ShaderInfo info =
 		{
+			SHADER_TYPE::FORWARD,
 		};
 
 		shared_ptr<Shader> shader = make_shared<Shader>();

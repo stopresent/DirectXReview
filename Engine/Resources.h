@@ -20,7 +20,7 @@ public:
 	bool Add(const wstring& key, shared_ptr<T> object);
 
 	template<typename T>
-	shared_ptr<T> Get(const wstring& key);
+	shared_ptr<T> Get(const wstring& Key);
 
 	template<typename T>
 	OBJECT_TYPE GetObjectType();
@@ -29,13 +29,19 @@ public:
 	shared_ptr<Mesh> LoadCubeMesh();
 	shared_ptr<Mesh> LoadSphereMesh();
 
+	shared_ptr<Texture> CreateTexture(const wstring& name, DXGI_FORMAT format, uint32 width, uint32 height,
+		const D3D12_HEAP_PROPERTIES& heapProperty, D3D12_HEAP_FLAGS heapFlags,
+		D3D12_RESOURCE_FLAGS resFlags = D3D12_RESOURCE_FLAG_NONE, Vec4 clearColor = Vec4());
+
+	shared_ptr<Texture> CreateTextureFromResource(const wstring& name, ComPtr<ID3D12Resource> tex2D);
+
+
 private:
 	void CreateDefaultShader();
 
 private:
-	using KeyObjMap = std::map<wstring/*Key*/, shared_ptr<Object>>;
+	using KeyObjMap = std::map<wstring/*key*/, shared_ptr<Object>>;
 	array<KeyObjMap, OBJECT_TYPE_COUNT> _resources;
-
 };
 
 template<typename T>
@@ -83,7 +89,6 @@ shared_ptr<T> Resources::Get(const wstring& key)
 	return nullptr;
 }
 
-// 컴파일 타임에 연산을 함
 template<typename T>
 inline OBJECT_TYPE Resources::GetObjectType()
 {
@@ -97,7 +102,7 @@ inline OBJECT_TYPE Resources::GetObjectType()
 		return OBJECT_TYPE::SHADER;
 	else if (std::is_same_v<T, Texture>)
 		return OBJECT_TYPE::TEXTURE;
-	else if (std::is_same_v<T, Component>)
+	else if (std::is_convertible_v<T, Component>)
 		return OBJECT_TYPE::COMPONENT;
 	else
 		return OBJECT_TYPE::NONE;

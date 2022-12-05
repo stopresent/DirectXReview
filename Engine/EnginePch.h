@@ -1,6 +1,7 @@
 #pragma once
 
-#define _HAS_STD_BYTE NULL
+// std::byte 사용하지 않음
+#define _HAS_STD_BYTE 0
 
 // 각종 include
 #include <windows.h>
@@ -58,7 +59,7 @@ using Vec3		= DirectX::SimpleMath::Vector3;
 using Vec4		= DirectX::SimpleMath::Vector4;
 using Matrix	= DirectX::SimpleMath::Matrix;
 
-enum class CBV_REGISTER
+enum class CBV_REGISTER : uint8
 {
 	b0,
 	b1,
@@ -90,19 +91,19 @@ enum
 
 struct WindowInfo
 {
-	HWND	hwnd;
-	uint32	width;
-	uint32	height;
-	bool	windowed;
+	HWND	hwnd; // 출력 윈도우
+	int32	width; // 너비
+	int32	height; // 높이
+	bool	windowed; // 창모드 or 전체화면
 };
 
 struct Vertex
 {
 	Vertex() {}
 
-	Vertex(Vec3 p, Vec2 u, Vec3 n, Vec3 t) : pos(p), uv(u), normal(n), tangent(t)
+	Vertex(Vec3 p, Vec2 u, Vec3 n, Vec3 t)
+		: pos(p), uv(u), normal(n), tangent(t)
 	{
-
 	}
 
 	Vec3 pos;
@@ -122,15 +123,15 @@ public:								\
 		return &instance;			\
 	}								\
 
-#define GET_SINGLE(type)		type::GetInstance()
+#define GET_SINGLE(type)	type::GetInstance()
 
-#define DEVICE					GEngine->GetDevice()->GetDevice()
-#define CMD_LIST				GEngine->GetCmdQueue()->GetCmdList()
-#define RESOURCE_CMD_LIST		GEngine->GetCmdQueue()->GetResourceCmdList()
-#define ROOT_SIGNATURE			GEngine->GetRootSignature()->GetSignature()
+#define DEVICE				GEngine->GetDevice()->GetDevice()
+#define CMD_LIST			GEngine->GetCmdQueue()->GetCmdList()
+#define RESOURCE_CMD_LIST	GEngine->GetCmdQueue()->GetResourceCmdList()
+#define ROOT_SIGNATURE		GEngine->GetRootSignature()->GetSignature()
 
-#define INPUT					GET_SINGLE(Input)
-#define DELTA_TIME				GET_SINGLE(Timer)->GetDeltaTime()
+#define INPUT				GET_SINGLE(Input)
+#define DELTA_TIME			GET_SINGLE(Timer)->GetDeltaTime()
 
 #define CONST_BUFFER(type)	GEngine->GetConstantBuffer(type)
 
